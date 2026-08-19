@@ -1,26 +1,146 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors - Material Design 3 based (Subpages) */
+  --color-on-surface: #221919;
+  --color-on-background: #221919;
+  --color-surface: #fff8f7;
+  --color-tertiary-fixed: #e4e2e0;
+  --color-on-secondary-container: #6b615a;
+  --color-on-primary-container: #ffcdd4;
+  --color-surface-container-lowest: #ffffff;
+  --color-surface-bright: #fff8f7;
+  --color-secondary: #675c56;
+  --color-inverse-surface: #382e2e;
+  --color-background: #fff8f7;
+  --color-primary-fixed-dim: #ffb2be;
+  --color-outline-variant: #dfbfc2;
+  --color-on-secondary: #ffffff;
+  --color-on-primary-fixed-variant: #8e0a39;
+  --color-inverse-on-surface: #feedec;
+  --color-secondary-container: #ecddd4;
+  --color-tertiary: #474746;
+  --color-on-secondary-fixed: #211a15;
+  --color-surface-container: #fceae9;
+  --color-on-primary-fixed: #400014;
+  --color-primary-container: #b02a50;
+  --color-outline: #8b7074;
+  --color-surface-tint: #af294f;
+  --color-secondary-fixed: #eee0d7;
+  --color-on-error: #ffffff;
+  --color-surface-dim: #e7d6d6;
+  --color-on-tertiary: #ffffff;
+  --color-on-primary: #ffffff;
+  --color-surface-container-highest: #f0dfde;
+  --color-error-container: #ffdad6;
+  --color-surface-container-low: #fff0f0;
+  --color-on-secondary-fixed-variant: #4e453f;
+  --color-on-tertiary-fixed-variant: #464746;
+  --color-on-surface-variant: #584144;
+  --color-surface-container-high: #f6e4e4;
+  --color-primary-fixed: #ffd9de;
+  --color-error: #ba1a1a;
+  --color-on-tertiary-container: #dbd9d7;
+  --color-tertiary-container: #5f5f5e;
+  --color-inverse-primary: #ffb2be;
+  --color-surface-variant: #f0dfde;
+  --color-on-error-container: #93000a;
+  --color-tertiary-fixed-dim: #c7c6c4;
+  --color-secondary-fixed-dim: #d2c4bb;
+  --color-on-tertiary-fixed: #1b1c1b;
+  --color-primary: #8f0b39;
+
+  /* Colors - Custom Branding (Home Hero) */
+  --color-rose-brand: #b72a54;
+  --color-rose-light: #fdf2f4;
+  --color-rose-bg: #f8f4f3;
+  --color-rose-dark: #2a2a2a;
+  --color-rose-subtle: #f4e9eb;
+
+  /* Border Radius */
+  --radius: 1rem;
+  --radius-lg: 2rem;
+  --radius-xl: 3rem;
+  --radius-full: 9999px;
+
+  /* Spacing */
+  --spacing-margin-mobile: 20px;
+  --spacing-section-gap: 128px;
+  --spacing-margin-desktop: 64px;
+  --spacing-unit: 8px;
+  --spacing-gutter: 24px;
+  --spacing-container-max: 1200px;
+
+  /* Fonts */
+  --font-serif: var(--font-playfair);
+  --font-sans: var(--font-work-sans);
+  
+  --font-body-lg: var(--font-dm-sans);
+  --font-label-sm: var(--font-dm-sans);
+  --font-body-md: var(--font-dm-sans);
+  --font-display-lg: var(--font-playfair);
+  --font-headline-lg-mobile: var(--font-playfair);
+  --font-headline-lg: var(--font-playfair);
+  --font-headline-md: var(--font-playfair);
+  --font-headline-sm: var(--font-playfair);
+
+  /* Font Sizes */
+  --text-body-lg: 18px;
+  --text-body-lg--line-height: 1.6;
+  --text-body-lg--font-weight: 400;
+  
+  --text-label-sm: 12px;
+  --text-label-sm--line-height: 1;
+  --text-label-sm--letter-spacing: 0.1em;
+  --text-label-sm--font-weight: 600;
+  
+  --text-body-md: 16px;
+  --text-body-md--line-height: 1.6;
+  --text-body-md--font-weight: 400;
+  
+  --text-display-lg: 64px;
+  --text-display-lg--line-height: 1.1;
+  --text-display-lg--letter-spacing: -0.02em;
+  --text-display-lg--font-weight: 600;
+  
+  --text-headline-lg-mobile: 32px;
+  --text-headline-lg-mobile--line-height: 1.2;
+  --text-headline-lg-mobile--font-weight: 500;
+  
+  --text-headline-lg: 40px;
+  --text-headline-lg--line-height: 1.2;
+  --text-headline-lg--font-weight: 500;
+  
+  --text-headline-md: 28px;
+  --text-headline-md--line-height: 1.3;
+  --text-headline-md--font-weight: 500;
+
+  --text-headline-sm: 24px;
+  --text-headline-sm--line-height: 1.3;
+  --text-headline-sm--font-weight: 500;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@utility material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  -webkit-font-smoothing: antialiased;
 }
+
+.curved-bottom {
+  border-bottom-left-radius: 50% 10%;
+  border-bottom-right-radius: 50% 10%;
+}
+.quote-mark {
+  color: #f0d5db;
+  font-size: 4rem;
+  line-height: 1;
+  position: absolute;
+  top: -15px;
+  right: 20px;
+  font-family: var(--font-playfair);
+}
+
