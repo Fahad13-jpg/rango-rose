@@ -28,11 +28,11 @@ export default function Ingredients() {
         {/* Alternating Section 1: Milk */}
         <section className="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop mb-section-gap animate-in fade-in slide-in-from-bottom-8 duration-1000">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-gutter md:gap-16 items-center">
-            <div className="order-2 md:order-1 relative rounded-xl overflow-hidden h-[600px]">
+            <div className="order-2 md:order-1 relative rounded-xl overflow-hidden h-[350px] sm:h-[450px] md:h-[600px]">
               <img
                 className="object-cover w-full h-full rounded-xl hover:scale-105 transition-transform duration-700"
                 alt="A serene, sunlit scene of a vintage glass milk bottle resting on a rustic, pale wooden table in a pristine, airy farmhouse kitchen."
-                src="images/mypro2.jpg"
+                src="/images/mypro2.jpg"
               />
               <div className="absolute inset-0 border border-outline-variant/20 rounded-xl pointer-events-none"></div>
             </div>
@@ -88,11 +88,11 @@ export default function Ingredients() {
                 </li>
               </ul>
             </div>
-            <div className="relative rounded-xl overflow-hidden h-[600px]">
+            <div className="relative rounded-xl overflow-hidden h-[350px] sm:h-[450px] md:h-[600px]">
               <img
                 className="object-cover w-full h-full rounded-xl hover:scale-105 transition-transform duration-700"
                 alt="A close-up, highly detailed shot of dew-kissed, velvet-textured deep crimson rose petals resting delicately in a pristine white ceramic bowl."
-                src="images/mypro1.jpg"
+                src="/images/mypro1.jpg"
               />
               <div className="absolute inset-0 border border-outline-variant/20 rounded-xl pointer-events-none"></div>
             </div>

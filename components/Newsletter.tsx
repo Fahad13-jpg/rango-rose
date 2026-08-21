@@ -1,4 +1,39 @@
+"use client";
+
+import { useState, type SubmitEvent } from "react";
+
 export default function Newsletter() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
+
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setStatus("loading");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/newsletter/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        setErrorMsg(data.email?.[0] ?? "Something went wrong. Please try again.");
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setErrorMsg("Something went wrong. Please try again.");
+      setStatus("error");
+    }
+  }
+
   return (
     <section className="bg-gradient-to-b from-transparent to-[#f4ebec] py-24 px-6">
       <div className="max-w-2xl mx-auto text-center">
@@ -28,20 +63,31 @@ export default function Newsletter() {
           and notes on elegant living.
         </p>
 
-        <form className="flex flex-col sm:flex-row max-w-md mx-auto gap-3">
-          <input
-            className="flex-1 rounded-full border-none px-6 py-3 text-sm focus:ring-2 focus:ring-rose-brand shadow-sm bg-white outline-none"
-            placeholder="Enter your email address"
-            required
-            type="email"
-          />
-          <button
-            className="bg-gray-900 hover:bg-black text-white rounded-full px-8 py-3 text-sm font-medium transition-colors shadow-sm"
-            type="submit"
-          >
-            Subscribe
-          </button>
-        </form>
+        {status === "success" ? (
+          <p className="text-gray-900 font-medium">You&apos;re on the list. Welcome to the Rose Club!</p>
+        ) : (
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row max-w-md mx-auto gap-3">
+            <input
+              className="flex-1 rounded-full border-none px-6 py-3 text-sm focus:ring-2 focus:ring-rose-brand shadow-sm bg-white outline-none"
+              placeholder="Enter your email address"
+              required
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <button
+              className="bg-gray-900 hover:bg-black text-white rounded-full px-8 py-3 text-sm font-medium transition-colors shadow-sm disabled:opacity-50"
+              type="submit"
+              disabled={status === "loading"}
+            >
+              {status === "loading" ? "Subscribing..." : "Subscribe"}
+            </button>
+          </form>
+        )}
+
+        {status === "error" && (
+          <p className="text-red-600 text-xs mt-3">{errorMsg}</p>
+        )}
 
         <p className="text-[10px] text-gray-400 mt-4">
           We respect your privacy. Unsubscribe at any time.

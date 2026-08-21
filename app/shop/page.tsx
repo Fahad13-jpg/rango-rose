@@ -3,41 +3,39 @@ import Footer from "@/components/Footer";
 import Newsletter from "@/components/Newsletter";
 import ProductCard from "@/components/ProductCard";
 
-export default function Shop() {
-  const products = [
-    {
-      id: 1,
-      title: "Signature Rose Milk",
-      description: "Our classic infusion, delicate and subtly sweet.",
-      price: "$24.00",
-      imageSrc: "/images/product3.jpg",
-      imageAlt: "A meticulously styled product shot of a minimalist glass bottle containing pale pink rose milk.",
-    },
-    {
-      id: 2,
-      title: "Lavender Dream",
-      description: "A calming blend of French lavender and rose.",
-      price: "$28.00",
-      imageSrc: "/images/product1.jpg",
-      imageAlt: "A meticulously styled product shot of a minimalist glass bottle containing pale lavender milk.",
-      badge: "Limited Edition"
-    },
-    {
-      id: 3,
-      title: "Golden Saffron",
-      description: "Infused with rare saffron for a warm, earthy finish.",
-      price: "$32.00",
-      imageSrc: "/images/product2.jpg",
-      imageAlt: "A meticulously styled product shot of a minimalist glass bottle containing a creamy golden milk.",
-    }
-  ];
+interface Product {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  price: string;
+  imageSrc: string | null;
+  badge: string;
+}
+
+// Fallback images while no image has been uploaded per-product in Django
+// admin. Matches the fixed order products are seeded in.
+const FALLBACK_IMAGES = [
+  "/images/product1.jpg",
+  "/images/product2.jpg",
+  "/images/product3.jpg",
+];
+
+async function getProducts(): Promise<Product[]> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/`, {
+    next: { revalidate: 60 },
+  });
+  if (!res.ok) throw new Error("Failed to load products");
+  return res.json();
+}
+
+export default async function Shop() {
+  const products = await getProducts();
 
   return (
     <>
       <Navbar />
-
       <main className="pt-32 md:pt-40 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex-grow">
-        {/* Shop Header */}
         <section className="text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
           <h1 className="font-display-lg text-display-lg text-primary mb-6">
             Shop the Collection
@@ -47,18 +45,17 @@ export default function Shop() {
           </p>
         </section>
 
-        {/* Product Grid */}
         <section className="mb-section-gap">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            {products.map((product) => (
+            {products.map((product, index) => (
               <ProductCard
                 key={product.id}
-                imageSrc={product.imageSrc}
-                imageAlt={product.imageAlt}
+                imageSrc={product.imageSrc ?? FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]}
+                imageAlt={product.title}
                 title={product.title}
                 description={product.description}
-                price={product.price}
-                badge={product.badge}
+                price={`$${Number(product.price).toFixed(2)}`}
+                badge={product.badge || undefined}
               />
             ))}
           </div>
@@ -66,7 +63,6 @@ export default function Shop() {
 
         <Newsletter />
       </main>
-
       <Footer />
     </>
   );

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -14,6 +14,15 @@ export default function Navbar() {
     { href: "/shop", label: "Shop" },
     { href: "/contact", label: "Contact" },
   ];
+
+  // Lock the background page from scrolling while the full-screen mobile
+  // menu is open, and always release the lock on unmount / route change.
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isMobileMenuOpen]);
 
   return (
     <>
@@ -32,11 +41,10 @@ export default function Navbar() {
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`font-label-sm text-label-sm uppercase tracking-widest hover:opacity-80 transition-opacity ${
-                    isActive
+                  className={`font-label-sm text-label-sm uppercase tracking-widest hover:opacity-80 transition-opacity ${isActive
                       ? "text-primary font-bold border-b-2 border-primary pb-1"
                       : "text-on-surface-variant hover:text-primary"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>
@@ -79,11 +87,10 @@ export default function Navbar() {
                 <Link
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`font-headline-md text-headline-md ${
-                    pathname === link.href
+                  className={`font-headline-md text-headline-md ${pathname === link.href
                       ? "text-primary"
                       : "text-on-surface-variant"
-                  }`}
+                    }`}
                 >
                   {link.label}
                 </Link>

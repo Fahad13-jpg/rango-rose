@@ -134,8 +134,8 @@ export default function OurStory() {
             </div>
 
             {/* Medium Feature */}
-            <div className="md:col-span-2 rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-8 shadow-[0_10px_40px_-10px_rgba(176,42,80,0.04)] hover:shadow-[0_15px_50px_-10px_rgba(176,42,80,0.08)] transition-all duration-300 flex items-center gap-8 hover:-translate-y-1">
-              <div className="w-1/3 aspect-square rounded-full overflow-hidden shrink-0 border-4 border-[#F9EAE1]">
+            <div className="md:col-span-2 rounded-xl border border-outline-variant/30 bg-surface-container-lowest p-8 shadow-[0_10px_40px_-10px_rgba(176,42,80,0.04)] hover:shadow-[0_15px_50px_-10px_rgba(176,42,80,0.08)] transition-all duration-300 flex flex-col sm:flex-row items-center gap-6 sm:gap-8 text-center sm:text-left hover:-translate-y-1">
+              <div className="w-32 h-32 sm:w-1/3 aspect-square rounded-full overflow-hidden shrink-0 border-4 border-[#F9EAE1]">
                 <img
                   alt="A close-up abstract photograph of milky white liquid swirling gracefully with a vibrant, deep rose infusion."
                   className="w-full h-full object-cover"
