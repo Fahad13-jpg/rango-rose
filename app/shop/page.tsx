@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Newsletter from "@/components/Newsletter";
 import ProductCard from "@/components/ProductCard";
+import { connection } from "next/server";
 
 interface Product {
   id: number;
@@ -21,15 +22,30 @@ const FALLBACK_IMAGES = [
   "/images/product3.jpg",
 ];
 
-async function getProducts(): Promise<Product[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/`, {
-    next: { revalidate: 60 },
-  });
-  if (!res.ok) throw new Error("Failed to load products");
-  return res.json();
+async function getProducts(): Promise<Product[] | null> {
+  const apiUrl = process.env.API_URL || process.env.NEXT_PUBLIC_API_URL;
+  if (!apiUrl) return null;
+
+  try {
+    const url = new URL(`${apiUrl.replace(/\/$/, "")}/api/products/`);
+    if (!["http:", "https:"].includes(url.protocol)) return null;
+    const res = await fetch(url, {
+      next: { revalidate: 60 },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!res.ok) return null;
+    const products: unknown = await res.json();
+    if (!Array.isArray(products)) return null;
+    return products as Product[];
+  } catch {
+    // A backend outage should not take down the storefront.
+    return null;
+  }
 }
 
 export default async function Shop() {
+  // The catalog depends on a separately deployed API, not the build machine.
+  await connection();
   const products = await getProducts();
 
   return (
@@ -46,8 +62,18 @@ export default async function Shop() {
         </section>
 
         <section className="mb-section-gap">
+          {products === null && (
+            <p role="status" className="text-center text-on-surface-variant py-12">
+              Our collection is temporarily unavailable. Please try again shortly.
+            </p>
+          )}
+          {products?.length === 0 && (
+            <p className="text-center text-on-surface-variant py-12">
+              New additions are on their way. Please check back soon.
+            </p>
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200">
-            {products.map((product, index) => (
+            {products?.map((product, index) => (
               <ProductCard
                 key={product.id}
                 imageSrc={product.imageSrc ?? FALLBACK_IMAGES[index % FALLBACK_IMAGES.length]}
