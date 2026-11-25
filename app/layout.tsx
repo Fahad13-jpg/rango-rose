@@ -32,12 +32,6 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${dmSans.variable} ${workSans.variable} h-full antialiased scroll-smooth`}
     >
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body className="min-h-full flex flex-col font-body-md text-on-surface bg-surface selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
         {children}
       </body>

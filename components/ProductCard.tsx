@@ -1,3 +1,6 @@
+import Image from "next/image";
+import Link from "next/link";
+
 interface ProductCardProps {
   imageSrc: string;
   imageAlt: string;
@@ -16,9 +19,14 @@ export default function ProductCard({
   badge,
 }: ProductCardProps) {
   return (
-    <article className="bg-[#FFFDFB] rounded-xl border border-[#F9EAE1] shadow-[0_20px_40px_-10px_rgba(176,42,80,0.04)] hover:-translate-y-1 hover:shadow-[0_30px_50px_-15px_rgba(176,42,80,0.08)] overflow-hidden group cursor-pointer flex flex-col h-full transition-all duration-300">
+    <article className="bg-[#FFFDFB] rounded-xl border border-[#F9EAE1] shadow-[0_20px_40px_-10px_rgba(176,42,80,0.04)] hover:-translate-y-1 hover:shadow-[0_30px_50px_-15px_rgba(176,42,80,0.08)] overflow-hidden group flex flex-col h-full transition-all duration-300">
       <div className="p-8 bg-[#F9EAE1]/30 flex-grow flex items-center justify-center relative">
-        <img
+        <Image
+          quality={90}
+          width={800}
+          height={1000}
+          sizes="(max-width: 767px) 85vw, (max-width: 1023px) 42vw, 28vw"
+          unoptimized={!imageSrc.startsWith("/")}
           src={imageSrc}
           alt={imageAlt}
           className="w-full aspect-[4/5] object-cover rounded-lg group-hover:scale-105 transition-transform duration-500"
@@ -39,9 +47,9 @@ export default function ProductCard({
         <p className="font-label-sm text-label-sm text-primary-container mb-6">
           {price}
         </p>
-        <button className="w-full py-3 rounded-full border border-primary-container text-primary-container font-label-sm text-label-sm hover:bg-primary-container hover:text-on-primary transition-colors hover:scale-[1.02] active:scale-95 duration-300">
-          Add to Cart
-        </button>
+        <Link href="/contact" className="block w-full py-3 rounded-full border border-primary-container text-primary-container font-label-sm text-label-sm hover:bg-primary-container hover:text-on-primary transition-colors hover:scale-[1.02] active:scale-95 duration-300">
+          Product enquiries
+        </Link>
       </div>
     </article>
   );

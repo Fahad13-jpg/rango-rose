@@ -35,7 +35,14 @@ async function getProducts(): Promise<Product[] | null> {
     });
     if (!res.ok) return null;
     const products: unknown = await res.json();
-    if (!Array.isArray(products)) return null;
+    if (!Array.isArray(products) || !products.every(product =>
+      product !== null && typeof product === "object" &&
+      typeof product.id === "number" && typeof product.title === "string" &&
+      typeof product.description === "string" && typeof product.price === "string" &&
+      Number.isFinite(Number(product.price)) &&
+      (product.imageSrc == null || typeof product.imageSrc === "string") &&
+      typeof product.badge === "string"
+    )) return null;
     return products as Product[];
   } catch {
     // A backend outage should not take down the storefront.
@@ -43,17 +50,25 @@ async function getProducts(): Promise<Product[] | null> {
   }
 }
 
+// Original catalog entries from backend/products/management/commands/seed_products.py.
+const PREVIEW_PRODUCTS: Product[] = [
+  { id: 1, title: "Signature Rose Milk", slug: "signature-rose-milk", description: "Our classic infusion, delicate and subtly sweet.", price: "24.00", imageSrc: "/images/product1.jpg", badge: "" },
+  { id: 2, title: "Lavender Dream", slug: "lavender-dream", description: "A calming blend of French lavender and rose.", price: "28.00", imageSrc: "/images/product2.jpg", badge: "Limited Edition" },
+  { id: 3, title: "Golden Saffron", slug: "golden-saffron", description: "Infused with rare saffron for a warm, earthy finish.", price: "32.00", imageSrc: "/images/product3.jpg", badge: "" },
+];
+
 export default async function Shop() {
   // The catalog depends on a separately deployed API, not the build machine.
-  await connection();
-  const products = await getProducts();
+  const preview = !Boolean(process.env.API_URL || process.env.NEXT_PUBLIC_API_URL);
+  if (!preview) await connection();
+  const products = preview ? PREVIEW_PRODUCTS : await getProducts();
 
   return (
     <>
       <Navbar />
       <main className="pt-32 md:pt-40 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex-grow">
         <section className="text-center mb-16 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <h1 className="font-display-lg text-display-lg text-primary mb-6">
+          <h1 className="font-display-lg text-headline-lg-mobile md:text-display-lg text-primary mb-6">
             Shop the Collection
           </h1>
           <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">
@@ -62,6 +77,7 @@ export default async function Shop() {
         </section>
 
         <section className="mb-section-gap">
+          {preview && <p role="status" className="text-center text-on-surface-variant mb-8">Collection preview. Prices are indicative; online ordering is not available yet.</p>}
           {products === null && (
             <p role="status" className="text-center text-on-surface-variant py-12">
               Our collection is temporarily unavailable. Please try again shortly.

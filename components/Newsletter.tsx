@@ -7,14 +7,18 @@ export default function Newsletter() {
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, "");
+
   async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!apiUrl || status === "loading") return;
     setStatus("loading");
     setErrorMsg("");
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/newsletter/`, {
+      const res = await fetch(`${apiUrl}/api/newsletter/`, {
         method: "POST",
+        signal: AbortSignal.timeout(15000),
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email }),
       });
@@ -63,12 +67,16 @@ export default function Newsletter() {
           and notes on elegant living.
         </p>
 
-        {status === "success" ? (
+        {!apiUrl ? (
+          <p role="status" className="text-gray-700">Newsletter signups will open soon. Check back for updates.</p>
+        ) : status === "success" ? (
           <p className="text-gray-900 font-medium">You&apos;re on the list. Welcome to the Rose Club!</p>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row max-w-md mx-auto gap-3">
             <input
               className="flex-1 rounded-full border-none px-6 py-3 text-sm focus:ring-2 focus:ring-rose-brand shadow-sm bg-white outline-none"
+              aria-label="Email address for the newsletter"
+              autoComplete="email"
               placeholder="Enter your email address"
               required
               type="email"
@@ -86,12 +94,12 @@ export default function Newsletter() {
         )}
 
         {status === "error" && (
-          <p className="text-red-600 text-xs mt-3">{errorMsg}</p>
+          <p role="alert" className="text-red-700 text-sm mt-3">{errorMsg}</p>
         )}
 
-        <p className="text-[10px] text-gray-400 mt-4">
-          We respect your privacy. Unsubscribe at any time.
-        </p>
+        {apiUrl && <p className="text-xs text-gray-600 mt-4">
+          Unsubscribe at any time.
+        </p>}
       </div>
     </section>
   );

@@ -55,36 +55,36 @@ export default function Footer() {
         {/* Legal Col */}
         <div>
           <h4 className="font-semibold text-xs tracking-wider text-gray-900 uppercase mb-4">
-            Legal
+            Contact
           </h4>
           <ul className="space-y-3 text-sm text-gray-600 font-light">
             <li>
               <Link
-                href="#"
+                href="/contact"
                 className="hover:text-rose-brand transition-colors underline decoration-gray-300 underline-offset-2"
               >
-                Privacy Policy
+                General enquiries
               </Link>
             </li>
             <li>
               <Link
-                href="#"
+                href="/contact"
                 className="hover:text-rose-brand transition-colors underline decoration-gray-300 underline-offset-2"
               >
-                Terms of Service
+                Customer support
               </Link>
             </li>
             <li>
               <Link
-                href="#"
+                href="/contact"
                 className="hover:text-rose-brand transition-colors underline decoration-gray-300 underline-offset-2"
               >
-                Sustainability
+                Press enquiries
               </Link>
             </li>
             <li>
               <Link
-                href="#"
+                href="/contact"
                 className="hover:text-rose-brand transition-colors underline decoration-gray-300 underline-offset-2"
               >
                 Wholesale

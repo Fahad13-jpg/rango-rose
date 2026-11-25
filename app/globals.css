@@ -145,7 +145,7 @@ body {
   font-family: var(--font-playfair);
 }
 
-/* Section spacing scales down on mobile — 128px between every section was
+/* Section spacing scales down on mobile â€” 128px between every section was
    originally applied at all screen widths, which meant a lot of wasted
    scroll distance on phones. Halved below the md breakpoint. */
 :root {
@@ -157,3 +157,16 @@ body {
     --spacing-section-gap: 128px;
   }
 }
+
+/* Fixed viewport units prevent mobile browser chrome from stretching the sequence. */
+.hero-sequence { height: 300svh; }
+.hero-sequence-stage { height: 100svh; isolation: isolate; }
+.hero-sequence-media { position: absolute; top: 64px; left: 0; width: 100%; height: calc(100% - 64px); }
+@media (max-width: 767px) { .hero-sequence { height: 220svh; } }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .hero-sequence { height: 100svh; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 4px; }
+@media (max-width: 767px) { input, select, textarea { font-size: 16px; } }

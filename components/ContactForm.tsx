@@ -1,23 +1,30 @@
 "use client";
 
+import Icon from "@/components/Icon";
+
 import { useState, type SubmitEvent } from "react";
 
-export default function ContactForm() {
+export default function ContactForm({ initialSubject = "general" }: { initialSubject?: string }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
-    const [subject, setSubject] = useState("general");
+    const [subject, setSubject] = useState(initialSubject);
     const [message, setMessage] = useState("");
     const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [errorMsg, setErrorMsg] = useState("");
 
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/+$/, "");
+    const configured = Boolean(apiUrl);
+
     async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
         e.preventDefault();
+        if (!configured || status === "loading") return;
         setStatus("loading");
         setErrorMsg("");
 
         try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/contact/`, {
+            const res = await fetch(`${apiUrl}/api/contact/`, {
                 method: "POST",
+                signal: AbortSignal.timeout(15000),
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, subject, message }),
             });
@@ -43,6 +50,13 @@ export default function ContactForm() {
         }
     }
 
+    if (!configured) {
+        return <div role="status" className="max-w-md rounded-lg border border-outline-variant bg-surface-container-lowest p-8">
+            <h2 className="font-headline-md text-headline-md text-primary mb-3">Online messages are coming soon</h2>
+            <p className="text-on-surface-variant leading-relaxed">Our contact service is not available yet. Please check back once contact details and online enquiries are open.</p>
+        </div>;
+    }
+
     if (status === "success") {
         return (
             <div className="max-w-md bg-surface-container-lowest p-8 rounded-lg shadow-[0_10px_40px_rgba(176,42,80,0.04)] border border-[#F9EAE1] text-center">
@@ -63,6 +77,7 @@ export default function ContactForm() {
                     className="w-full bg-transparent border-0 border-b border-[#F9EAE1] pb-2 pt-2 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-0 transition-colors peer"
                     id="name"
                     name="name"
+                    autoComplete="name"
                     required
                     type="text"
                     placeholder=" "
@@ -82,6 +97,7 @@ export default function ContactForm() {
                     className="w-full bg-transparent border-0 border-b border-[#F9EAE1] pb-2 pt-2 text-on-surface font-body-md focus:outline-none focus:border-primary focus:ring-0 transition-colors peer"
                     id="email"
                     name="email"
+                    autoComplete="email"
                     required
                     type="email"
                     placeholder=" "
@@ -130,7 +146,7 @@ export default function ContactForm() {
             </div>
 
             {status === "error" && (
-                <p className="text-red-600 text-xs">{errorMsg}</p>
+                <p role="alert" className="text-red-700 text-sm">{errorMsg}</p>
             )}
 
             <button
@@ -139,7 +155,7 @@ export default function ContactForm() {
                 disabled={status === "loading"}
             >
                 {status === "loading" ? "Sending..." : "Send Message"}
-                <span className="material-symbols-outlined text-[18px]">arrow_forward</span>
+                <Icon name="arrow_forward" className="text-[18px]" />
             </button>
         </form>
     );

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import Image from "next/image";
 
 const images = [
   "/images/experience-1.jpg",
@@ -11,18 +12,32 @@ const images = [
 export default function ExperienceCarousel() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [paused, setPaused] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 3000); // Change image every 3 seconds
-
-    return () => clearInterval(timer);
-  }, []);
+    let visible = false;
+    let timer: ReturnType<typeof setInterval> | undefined;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => {
+      clearInterval(timer);
+      if (visible && !document.hidden && !motion.matches && !paused) {
+        timer = setInterval(() => setCurrentIndex(index => (index + 1) % images.length), 5000);
+      }
+    };
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; update(); });
+    if (containerRef.current) observer.observe(containerRef.current);
+    document.addEventListener("visibilitychange", update);
+    motion.addEventListener("change", update);
+    return () => { clearInterval(timer); observer.disconnect(); document.removeEventListener("visibilitychange", update); motion.removeEventListener("change", update); };
+  }, [paused]);
 
   return (
-    <div className="relative aspect-square w-full rounded-3xl shadow-xl overflow-hidden">
+    <div ref={containerRef} role="region" aria-label="Rose experience slideshow" className="relative aspect-square w-full rounded-3xl shadow-xl overflow-hidden">
       {images.map((imgSrc, index) => (
-        <img
+        <Image
+          fill
+          quality={90}
+          sizes="(max-width: 767px) 90vw, 45vw"
           key={imgSrc}
           src={imgSrc}
           alt={`Rose Experience ${index + 1}`}
@@ -37,7 +52,7 @@ export default function ExperienceCarousel() {
         </svg>
         Floral Notes
       </div>
-      <div className="absolute bottom-8 left-8 bg-white/90 backdrop-blur text-gray-700 text-xs font-medium px-4 py-2 rounded-full shadow-sm flex items-center gap-2 z-10">
+      <div className="absolute bottom-20 left-8 bg-white/90 backdrop-blur text-gray-700 text-xs font-medium px-4 py-2 rounded-full shadow-sm flex items-center gap-2 z-10">
         <svg
           className="w-4 h-4"
           fill="none"
@@ -52,6 +67,11 @@ export default function ExperienceCarousel() {
           ></path>
         </svg>
         Velvety Texture
+      </div>
+      <div className="absolute bottom-4 inset-x-0 z-20 flex justify-center gap-2">
+        <button type="button" aria-label="Previous image" onClick={() => { setPaused(true); setCurrentIndex(index => (index + images.length - 1) % images.length); }} className="w-11 h-11 rounded-full bg-white/95 text-rose-brand flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m14 6-6 6 6 6" /></svg></button>
+        <button type="button" aria-label={paused ? "Play slideshow" : "Pause slideshow"} onClick={() => setPaused(value => !value)} className="min-w-20 h-11 px-4 rounded-full bg-white/95 text-rose-brand text-sm">{paused ? "Play" : "Pause"}</button>
+        <button type="button" aria-label="Next image" onClick={() => { setPaused(true); setCurrentIndex(index => (index + 1) % images.length); }} className="w-11 h-11 rounded-full bg-white/95 text-rose-brand flex items-center justify-center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="m10 6 6 6-6 6" /></svg></button>
       </div>
     </div>
   );

@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Documented examples contain no credentials.
+!.env.example
+!backend/.env.example

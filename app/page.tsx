@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Newsletter from "@/components/Newsletter";
@@ -10,6 +11,7 @@ export default function Home() {
     <>
       <Navbar />
 
+      <main id="main-content">
       {/* Hero Scroll Animation Section */}
       <HeroScrollAnimation />
 
@@ -69,7 +71,7 @@ export default function Home() {
             <h2 className="font-serif text-5xl font-bold text-gray-900 mb-2 tracking-tight">The Rose</h2>
             <h2 className="font-serif text-5xl font-bold text-rose-brand italic mb-6 tracking-tight">Experience</h2>
             <p className="text-gray-600 mb-8 font-light leading-relaxed">
-              Elevate your daily refreshment routine. Rango Rose is more than just a drink; it's a carefully crafted sensory journey. The gentle sweetness of the milk perfectly balances the subtle, aromatic whispers of rose, creating a sophisticated profile that lingers beautifully on the palate.
+              Elevate your daily refreshment routine. Rango Rose is more than just a drink; it&apos;s a carefully crafted sensory journey. The gentle sweetness of the milk perfectly balances the subtle, aromatic whispers of rose, creating a sophisticated profile that lingers beautifully on the palate.
             </p>
             <ul className="space-y-4 mb-10">
               <li className="flex items-start gap-3 text-sm text-gray-700">
@@ -101,17 +103,17 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Review 1 */}
           <div className="bg-[#faf5f6] border border-rose-100 rounded-2xl p-8 relative pt-12 hover:-translate-y-2 hover:shadow-lg transition-all duration-500">
-            <span className="quote-mark">"</span>
+            <span className="quote-mark">&quot;</span>
             <div className="flex text-rose-brand mb-4 gap-1">
               {[...Array(5)].map((_, i) => (
                 <svg key={i} className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" clipRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"></path></svg>
               ))}
             </div>
             <p className="italic text-gray-600 text-sm mb-6 leading-relaxed">
-              "Absolutely divine. It's not overly sweet like other flavoured milks. The rose flavor is subtle and incredibly refreshing, it feels like a treat."
+              &quot;Absolutely divine. It&apos;s not overly sweet like other flavoured milks. The rose flavor is subtle and incredibly refreshing, it feels like a treat.&quot;
             </p>
             <div className="flex items-center gap-3">
-              <img alt="Eleanor V." className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqzxWW4io7GTmEo3ewpkfh58Mr4lYl9a4Gz2n2Wj-6EustqhTLL1W879Vx5B5XkGXGsk2zFhDrhKNG0v3zyEEA_SzWteU0ZexE8-LcwzoWQ-RpnLJwXlpxY7rOlj-3yslOUtAm3mTnCMpiFvdaX4J3-jIJkvIQ5H9RIN3XvAOKu4NIVVsoZiXnFere0RUVg15FlyiEOPYCs5lkt_EgcBpwRyM4yb5b0_NnRDlpqgTdZ1S8YpiJ1Krp" />
+              <Image quality={90} sizes="40px" width={40} height={40} alt="Eleanor V." className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBqzxWW4io7GTmEo3ewpkfh58Mr4lYl9a4Gz2n2Wj-6EustqhTLL1W879Vx5B5XkGXGsk2zFhDrhKNG0v3zyEEA_SzWteU0ZexE8-LcwzoWQ-RpnLJwXlpxY7rOlj-3yslOUtAm3mTnCMpiFvdaX4J3-jIJkvIQ5H9RIN3XvAOKu4NIVVsoZiXnFere0RUVg15FlyiEOPYCs5lkt_EgcBpwRyM4yb5b0_NnRDlpqgTdZ1S8YpiJ1Krp" />
               <div>
                 <h4 className="font-semibold text-sm">Eleanor V.</h4>
                 <p className="text-xs text-gray-500">Verified Buyer</p>
@@ -120,17 +122,17 @@ export default function Home() {
           </div>
           {/* Review 2 (Highlighted) */}
           <div className="bg-[#faedef] border border-rose-200 rounded-2xl p-8 relative pt-12 transform md:-translate-y-4 shadow-sm hover:-translate-y-6 hover:shadow-lg transition-all duration-500">
-            <span className="quote-mark text-rose-200">"</span>
+            <span className="quote-mark text-rose-200">&quot;</span>
             <div className="flex text-rose-brand mb-4 gap-1">
               {[...Array(5)].map((_, i) => (
                 <svg key={i} className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" clipRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"></path></svg>
               ))}
             </div>
             <p className="italic text-gray-800 text-sm mb-6 leading-relaxed font-medium">
-              "I serve this at my weekend brunches now. It looks stunning in a glass and everyone always asks where I got it. A truly premium experience."
+              &quot;I serve this at my weekend brunches now. It looks stunning in a glass and everyone always asks where I got it. A truly premium experience.&quot;
             </p>
             <div className="flex items-center gap-3">
-              <img alt="James L." className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5NiRltm3RQSOPGYwpSVEwOllEUeSWYYHuZeaLDOhNLR-FT-rqHP026IcB5FRI1aySMyGwU1VuOmbz7eE3yNa80LUQgy3AN_Kmqm5d2Bv9OmsxNqCgH3vV6vVd8C4rApahVnQvGY_uMafhwRxEdzZeeV3WawxytuioUxcQ-kPQd-RP5aZlZbzH2679xgGMMDrmdP5TEqpRoDapyI7e26zIM-VNNiqggVuBs02o9JG1tk5jf0QTWdvW" />
+              <Image quality={90} sizes="40px" width={40} height={40} alt="James L." className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5NiRltm3RQSOPGYwpSVEwOllEUeSWYYHuZeaLDOhNLR-FT-rqHP026IcB5FRI1aySMyGwU1VuOmbz7eE3yNa80LUQgy3AN_Kmqm5d2Bv9OmsxNqCgH3vV6vVd8C4rApahVnQvGY_uMafhwRxEdzZeeV3WawxytuioUxcQ-kPQd-RP5aZlZbzH2679xgGMMDrmdP5TEqpRoDapyI7e26zIM-VNNiqggVuBs02o9JG1tk5jf0QTWdvW" />
               <div>
                 <h4 className="font-semibold text-sm">James L.</h4>
                 <p className="text-xs text-gray-500">Food Blogger</p>
@@ -139,17 +141,17 @@ export default function Home() {
           </div>
           {/* Review 3 */}
           <div className="bg-[#faf5f6] border border-rose-100 rounded-2xl p-8 relative pt-12 hover:-translate-y-2 hover:shadow-lg transition-all duration-500">
-            <span className="quote-mark">"</span>
+            <span className="quote-mark">&quot;</span>
             <div className="flex text-rose-brand mb-4 gap-1">
               {[...Array(5)].map((_, i) => (
                 <svg key={i} className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path fillRule="evenodd" clipRule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.006z"></path></svg>
               ))}
             </div>
             <p className="italic text-gray-600 text-sm mb-6 leading-relaxed">
-              "The texture is so creamy, and the floral aroma hits you before you even taste it. Perfect for unwinding after a long day."
+              &quot;The texture is so creamy, and the floral aroma hits you before you even taste it. Perfect for unwinding after a long day.&quot;
             </p>
             <div className="flex items-center gap-3">
-              <img alt="Sophia M." className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD90bAwwUif-bBkKZ7oBDzEiPBWANEnI1BmOiqut1-_8LHGU5_sKo3RdkHHSopraj6SiVsIvx8ZC3hHMMBYFGRPbNc1dOeDvAvCD4KV0Y7U90f91ki5kWrwbsOvfex6JpY-vZlfGBGaQCTxss9pf8hSiWHnj3DrTW02UlNe4Piy24HQgRzQHj1tNWTqLYpvM9xDU8g4W7tqn4sSJv0P6vk9Ha_TME5X9M8PfbVgyBoR6cXwMfX3uRZh" />
+              <Image quality={90} sizes="40px" width={40} height={40} alt="Sophia M." className="w-10 h-10 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD90bAwwUif-bBkKZ7oBDzEiPBWANEnI1BmOiqut1-_8LHGU5_sKo3RdkHHSopraj6SiVsIvx8ZC3hHMMBYFGRPbNc1dOeDvAvCD4KV0Y7U90f91ki5kWrwbsOvfex6JpY-vZlfGBGaQCTxss9pf8hSiWHnj3DrTW02UlNe4Piy24HQgRzQHj1tNWTqLYpvM9xDU8g4W7tqn4sSJv0P6vk9Ha_TME5X9M8PfbVgyBoR6cXwMfX3uRZh" />
               <div>
                 <h4 className="font-semibold text-sm">Sophia M.</h4>
                 <p className="text-xs text-gray-500">Verified Buyer</p>
@@ -160,6 +162,7 @@ export default function Home() {
       </section>
 
       <Newsletter />
+      </main>
       <Footer />
     </>
   );
